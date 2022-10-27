@@ -14,6 +14,7 @@ from typing import List, Tuple
 X = "X"
 O = "O"
 WALL = "#"
+EMPTY = " "
 entities = [X, O, WALL]
 
 class MouseCheeseProblem():
@@ -40,7 +41,7 @@ class MouseCheeseProblem():
         """
         try:
             f = open(self.filename, 'r')
-            lines = f.readlines()
+            lines = f.read().splitlines()
             return lines
         except FileNotFoundError:
             print("File not found. Try again!")
@@ -54,19 +55,21 @@ class MouseCheeseProblem():
         board = []
         initial_position = None
         goal_states = []
-        for i, layer in enumerate(layout):
+        for i, row in enumerate(layout):
             line = []
-            for j, entity in enumerate(layer):
-                if entity in entities:
-                    if entity == X:
-                        initial_position = (i, j)
-                         # don't add it to the board representation
-                    elif entity == O:
-                        goal_states.append((i, j))
-                    line.append(entity)
-                elif entity != "\n": # ignore new line
+            for j, entity in enumerate(row):
+                if entity == EMPTY:
                     line.append(None)
+                elif entity == X:
+                    initial_position = (i, j)
+                    line.append(None)
+                elif entity == O:
+                    goal_states.append((i, j))
+                    line.append(entity)
+                else:
+                    line.append(entity)
             board.append(line)
+        print(board)
         
         if (not initial_position): 
             raise Exception("No Initial Position of X found.")
@@ -122,10 +125,11 @@ class MouseCheeseProblem():
             for j, e in enumerate(line):
                 if (i, j) == node.state:
                     print(X, end="")
-                    
-                if e == None:
+                elif e == None:
                     e = " "
-                print(e, end="")
+                    print(e, end="")
+                else:
+                    print(e, end="")
                 print(" ", end="")
             print()
         print()
