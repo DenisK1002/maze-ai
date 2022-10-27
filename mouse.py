@@ -8,6 +8,9 @@ Properties of the problem:
 """
 
 from typing import List, Tuple
+from termcolor import colored
+
+from utils import bcolors
 
 
 # define constants
@@ -69,7 +72,6 @@ class MouseCheeseProblem():
                 else:
                     line.append(entity)
             board.append(line)
-        print(board)
         
         if (not initial_position): 
             raise Exception("No Initial Position of X found.")
@@ -95,6 +97,20 @@ class MouseCheeseProblem():
         if self.board[y][x+1] != WALL:
             actions.append((y, x+1))
         return actions
+
+    def action_cost(self, action):
+        """
+        Returns path cost resulting from taking action in state1 to arrive at state 2
+        c is the cost that it already took to get to state1
+        Note: it required that the empty paths in your problem world need to be filled with a number for path cost
+        empty squares cost 0
+        """
+        try:
+            action_cost = int(self.board[action[0]][action[1]])
+            return action_cost
+        except:
+            return 1
+
 
     def result(self, state, action):
         """
@@ -124,7 +140,7 @@ class MouseCheeseProblem():
         for i, line in enumerate(self.board):
             for j, e in enumerate(line):
                 if (i, j) == node.state:
-                    print(X, end="")
+                    print(bcolors.OKGREEN + X + bcolors.ENDC, end="")
                 elif e == None:
                     e = " "
                     print(e, end="")

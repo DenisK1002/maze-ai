@@ -3,7 +3,7 @@ File Implementing various algorithms to solve
 the mouse-ai problem for a given world
 """
 from mouse import MouseCheeseProblem
-from utils import Node
+from utils import Node, PriorityQueue
 from typing import Deque
 
 class MouseAI():
@@ -56,11 +56,33 @@ class MouseAI():
                     frontier.append(child)
         return None
     
+    def UCS(self):
+        """
+        Operating Uniform-Cost-Search on MouseCheeseProblem
+        """
+        node = Node(self.problem.state)
+        frontier = PriorityQueue(list=[])
+        frontier.push(node)
+        explored = set()
 
+        while frontier:
+            # select cheapest node
+            node = frontier.pop()
+            self.problem.drawGame(node)
+            if problem.goal_test(node.state):
+                print(node.path())
+                return node
+            explored.add(node.state)
+            for child in node.expand(self.problem):
+                if child.state not in explored and not frontier.in_queue(child):
+                    frontier.push(child)
+                elif frontier.in_queue_value(child) > child.path_cost:
+                    frontier.replace(child)
+        return None
 
 if __name__ == '__main__':
     
-    problem = MouseCheeseProblem(filename="standard_world.txt")
+    problem = MouseCheeseProblem(filename="std_world_with_cost.txt")
     ai = MouseAI(problem)
-    ai.DFS()
+    ai.UCS()
     
