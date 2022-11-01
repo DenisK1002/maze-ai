@@ -48,6 +48,7 @@ class MouseCheeseProblem():
             return lines
         except FileNotFoundError:
             print("File not found. Try again!")
+            raise FileNotFoundError
 
     def initialize_problem(self) -> Tuple:
         """
@@ -103,7 +104,7 @@ class MouseCheeseProblem():
         Returns path cost resulting from taking action in state1 to arrive at state 2
         c is the cost that it already took to get to state1
         Note: it required that the empty paths in your problem world need to be filled with a number for path cost
-        empty squares cost 0
+        empty squares cost 1
         """
         try:
             action_cost = int(self.board[action[0]][action[1]])
@@ -111,6 +112,19 @@ class MouseCheeseProblem():
         except:
             return 1
 
+    def manhattan_distance(self, x1, y1):
+        """
+        Returns the manhattan distance of given state
+        """
+        md = min([abs(x1-x2) + abs(y1-y2) for y2, x2 in self.goal_states])
+        return md
+
+    def h(self, node):
+        """
+        Returns heuristic for a given node
+        """
+        h = self.manhattan_distance(node.state[1], node.state[0])
+        return h
 
     def result(self, state, action):
         """

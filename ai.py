@@ -80,9 +80,33 @@ class MouseAI():
                     frontier.replace(child)
         return None
 
+    def ASTAR(self):
+        """
+        Operating A*-Search on MouseCheeseProblem
+        """
+        node = Node(self.problem.state)
+        frontier = PriorityQueue()
+        frontier.push(node, self.problem.h)
+        explored = set()
+        
+        while frontier:
+            node = frontier.pop()
+            self.problem.drawGame(node)
+            if problem.goal_test(node.state):
+                print(node.path())
+                return node
+            explored.add(node.state)
+            for child in node.expand(self.problem):
+                if child.state not in explored and not frontier.in_queue(child):
+                    frontier.push(child)
+                elif child.path_cost + self.problem.h(child) < frontier.in_queue_value(child):
+                    frontier.replace(child)
+
+        return None
+
 if __name__ == '__main__':
     
-    problem = MouseCheeseProblem(filename="std_world_with_cost.txt")
+    problem = MouseCheeseProblem(filename="worlds/std_world_with_cost.txt")
     ai = MouseAI(problem)
-    ai.UCS()
+    ai.ASTAR()
     

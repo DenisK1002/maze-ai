@@ -64,8 +64,9 @@ class PriorityQueue:
         print(self.pq)
         return heappop(self.pq)[1]
     
-    def push(self, node):
-        heapq.heappush(self.pq, (node.path_cost, node))
+    def push(self, node, h=None):
+        f = node.path_cost if h == None else node.path_cost + h(node)
+        heapq.heappush(self.pq, (f, node))
 
     def in_queue_value(self, node) -> int:
         """
