@@ -7,6 +7,7 @@ Properties of the problem:
     - multiple block of cheese
 """
 
+import math
 from typing import List, Tuple
 from termcolor import colored
 
@@ -114,16 +115,25 @@ class MouseCheeseProblem():
 
     def manhattan_distance(self, x1, y1):
         """
-        Returns the manhattan distance of given state
+        Returns the manhattan distance of given state to the closest goal
         """
         md = min([abs(x1-x2) + abs(y1-y2) for y2, x2 in self.goal_states])
         return md
+
+    def euclidian_distance(self, x1, y1):
+        """
+        Returns the euclidian distance of given state to the goal state
+        """
+        goal = (self.goal_states[0][0], self.goal_states[0][1])
+        eucl = math.sqrt(math.pow((x1-y1), 2) + math.pow(goal[0] - goal[1], 2))
+
+        return eucl
 
     def h(self, node):
         """
         Returns heuristic for a given node
         """
-        h = self.manhattan_distance(node.state[1], node.state[0])
+        h = self.euclidian_distance(node.state[1], node.state[0])
         return h
 
     def result(self, state, action):
