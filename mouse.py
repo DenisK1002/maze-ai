@@ -125,7 +125,7 @@ class MouseCheeseProblem():
         Returns the euclidian distance of given state to the goal state
         """
         goal = (self.goal_states[0][0], self.goal_states[0][1])
-        eucl = math.sqrt(math.pow((x1-y1), 2) + math.pow(goal[0] - goal[1], 2))
+        eucl = math.sqrt(math.pow((x1-goal[1]), 2) + math.pow(y1 - goal[0], 2))
 
         return eucl
 
